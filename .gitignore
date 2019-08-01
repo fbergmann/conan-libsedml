@@ -1,0 +1,17 @@
+build
+*.pyc
+activate*
+deactivate*
+conanbuild*
+test_package/build
+package
+src
+
+conanbuildinfo.cmake
+conanbuildinfo.txt
+conaninfo.txt
+graph_info.json
+
+.idea
+.vs
+.vscode
