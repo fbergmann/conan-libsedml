@@ -6,7 +6,7 @@ from conans import ConanFile, tools, CMake
 class LibSedMLConan(ConanFile):
 
     name = "libsedml"
-    version = "0.4.5"
+    version = "2.0.5"
     url = "http://github.com/fbergmann/conan-libsedml"
     homepage = "https://github.com/fbergmann/libSEDML/"
     author = "Frank Bergmann"
@@ -28,7 +28,7 @@ class LibSedMLConan(ConanFile):
         "cpp_namespaces=False"
     )
 
-    generators = "cmake"
+    generators = "cmake", "cmake_paths"
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -41,14 +41,10 @@ class LibSedMLConan(ConanFile):
 
     def source(self):
         git = tools.Git("src")
-        git.clone("https://github.com/fbergmann/libSEDML/")
-        tools.replace_in_file('src/CMakeLists.txt', "project(libsedml)", '''project(libsedml)
-
-include(${CMAKE_BINARY_DIR}/../conanbuildinfo.cmake)
-conan_basic_setup()''')
+        git.clone("https://github.com/fbergmann/libSEDML/", branch="level1-version4")
 
     def _configure(self, cmake):
-        args = []
+        args = ['-DEXTRA_LIBS=expat;bz2;zlib']
         if self.options.cpp_namespaces:
             args.append('-DWITH_CPP_NAMESPACE=ON')
         if self.settings.compiler == 'Visual Studio' and 'MT' in self.settings.compiler.runtime:
@@ -63,6 +59,7 @@ conan_basic_setup()''')
         cmake = CMake(self)
         self._configure(cmake)
         cmake.build()
+        cmake.test()
 
     def package(self):
         cmake = CMake(self)
