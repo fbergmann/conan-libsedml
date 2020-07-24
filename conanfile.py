@@ -6,7 +6,7 @@ from conans import ConanFile, tools, CMake
 class LibSedMLConan(ConanFile):
 
     name = "libsedml"
-    version = "2.0.5"
+    version = "2.0.11"
     url = "http://github.com/fbergmann/conan-libsedml"
     homepage = "https://github.com/fbergmann/libSEDML/"
     author = "Frank Bergmann"
@@ -34,7 +34,7 @@ class LibSedMLConan(ConanFile):
         if self.settings.os == "Windows":
             del self.options.fPIC
 
-        self.requires("libsbml/5.18.1@fbergmann/stable")
+        self.requires("libsbml/5.18.3@fbergmann/stable")
         self.options['libsbml'].shared = self.options.shared
         self.requires("libnuml/1.1.1@fbergmann/stable")
         self.options['libnuml'].shared = self.options.shared
